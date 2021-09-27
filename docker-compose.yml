@@ -100,7 +100,7 @@
     
       airflow-webserver:
         <<: *airflow-common
-        command: sh -c "docker create context ecs && webserver"
+        command: sh -c "docker context create ecs && webserver"
         ports:
           - 8080:8080
         healthcheck:
