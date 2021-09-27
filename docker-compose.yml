@@ -76,8 +76,8 @@
       postgres:
         image: postgres:13
         environment:
-          POSTGRES_USER: triider
-          POSTGRES_PASSWORD: triider21
+          POSTGRES_USER: airflow
+          POSTGRES_PASSWORD: airflow
           POSTGRES_DB: airflow
         volumes:
           - postgres-db-volume:/var/lib/postgresql/data
@@ -100,7 +100,7 @@
     
       airflow-webserver:
         <<: *airflow-common
-        command: webserver
+        command: sh -c "docker create context ecs && webserver"
         ports:
           - 8080:8080
         healthcheck:
@@ -189,8 +189,8 @@
           <<: *airflow-common-env
           _AIRFLOW_DB_UPGRADE: 'true'
           _AIRFLOW_WWW_USER_CREATE: 'true'
-          _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-triider}
-          _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-triider21}
+          _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
+          _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
         user: "0:${AIRFLOW_GID:-0}"
         volumes:
           - .:/sources
